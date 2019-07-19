@@ -74,4 +74,5 @@ make2 = Vehicle_Make.new("chevrolet")
 filter2 = Filter.new("vehicle makes")
 filter2.add_make(make1)
 filter2.add_make(make2)
+
 filter2.play
