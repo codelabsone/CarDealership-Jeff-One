@@ -27,52 +27,48 @@ class Vehicle_Make
 end
 
 class Filter
-  def initialize(option)
-    @option = option
-    @type = []
-    @make = []
+  def initialize(name)
+    @name = name
+    @options = []
   end
 
-  def add_type(type)
-    @type << type
+  def add_option(option)
+    @options << option
   end
 
-  def add_make(make)
-    @make << make
-  end
-
-  def play
-    puts "The following #{@option} are available:"
-    puts @types
-    puts @make
-
-    @type.each do |types|
-      puts types
+  def to_s
+    ret = "These #{@name}s are available:"
+    @options.each do |option|
+      ret += "\n" + option.to_s
     end
-
-    @make.each do |make|
-      puts make
-    end
+    ret
   end
 end
 
-type1 = Vehicle_Type.new("SUV")
-type2 = Vehicle_Type.new("truck")
-type3 = Vehicle_Type.new("car")
-type4 = Vehicle_Type.new("van")
 
-filter1 = Filter.new("vehicle types")
-filter1.add_type(type1)
-filter1.add_type(type2)
-filter1.add_type(type3)
-filter1.add_type(type4)
-filter1.play
+types = []
+types << Vehicle_Type.new("SUV")
+types << Vehicle_Type.new("truck")
+types << Vehicle_Type.new("car")
+types << Vehicle_Type.new("van")
 
-make1 = Vehicle_Make.new("ford")
-make2 = Vehicle_Make.new("chevrolet")
+filter1 = Filter.new("Body Style")
+types.each do |type|
+  filter1.add_option(type)
+end
 
-filter2 = Filter.new("vehicle makes")
-filter2.add_make(make1)
-filter2.add_make(make2)
+makes = []
+makes << Vehicle_Make.new("ford")
+makes << Vehicle_Make.new("chevrolet")
+makes << Vehicle_Make.new("toyota")
+makes << Vehicle_Make.new("dodge")
+makes << Vehicle_Make.new("chrysler")
 
-filter2.play
+filter2 = Filter.new("make")
+makes.each do |make|
+  filter2.add_option(make)
+end
+
+puts filter1
+
+puts filter2
