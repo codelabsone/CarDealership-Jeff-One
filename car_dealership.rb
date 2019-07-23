@@ -1,3 +1,5 @@
+require 'sqlite3'
+
 class Vehicle_Type
   def initialize(type)
     @type = type.capitalize
@@ -45,30 +47,40 @@ class Filter
   end
 end
 
+db = SQLite3::Database.open "dealership.db"
 
-types = []
-types << Vehicle_Type.new("SUV")
-types << Vehicle_Type.new("truck")
-types << Vehicle_Type.new("car")
-types << Vehicle_Type.new("van")
+TBL = "VehicleModelYear"
 
-filter1 = Filter.new("Body Style")
-types.each do |type|
-  filter1.add_option(type)
+query = db.prepare "SELECT DISTINCT(make) FROM '#{TBL}';"
+result = query.execute
+
+result.each do |r|
+  puts r
 end
 
-makes = []
-makes << Vehicle_Make.new("ford")
-makes << Vehicle_Make.new("chevrolet")
-makes << Vehicle_Make.new("toyota")
-makes << Vehicle_Make.new("dodge")
-makes << Vehicle_Make.new("chrysler")
-
-filter2 = Filter.new("make")
-makes.each do |make|
-  filter2.add_option(make)
-end
-
-puts filter1
-
-puts filter2
+# types = []
+# types << Vehicle_Type.new("SUV")
+# types << Vehicle_Type.new("truck")
+# types << Vehicle_Type.new("car")
+# types << Vehicle_Type.new("van")
+#
+# filter1 = Filter.new("Body Style")
+# types.each do |type|
+#   filter1.add_option(type)
+# end
+#
+# makes = []
+# makes << Vehicle_Make.new("ford")
+# makes << Vehicle_Make.new("chevrolet")
+# makes << Vehicle_Make.new("toyota")
+# makes << Vehicle_Make.new("dodge")
+# makes << Vehicle_Make.new("chrysler")
+#
+# filter2 = Filter.new("make")
+# makes.each do |make|
+#   filter2.add_option(make)
+# end
+#
+# puts filter1
+#
+# puts filter2
