@@ -1,4 +1,5 @@
 require 'sqlite3'
+require_relative 'dbconnection'
 
 class Vehicle_Type
   def initialize(type)
@@ -47,16 +48,23 @@ class Filter
   end
 end
 
-db = SQLite3::Database.open "dealership.db"
+db = DbConnection.new('dealership.db')
+options = ["year", "make", "model"]
 
-TBL = "VehicleModelYear"
-
-query = db.prepare "SELECT DISTINCT(make) FROM '#{TBL}';"
-result = query.execute
-
-result.each do |r|
-  puts r
+options.each do |option|
+  c = db.count(option)
+  puts "#{option} has #{c} entries."
 end
+
+#
+# TBL = "VehicleModelYear"
+#
+# query = db.prepare "SELECT DISTINCT(make) FROM '#{TBL}';"
+# result = query.execute
+#
+# result.each do |r|
+#   puts r
+# end
 
 # types = []
 # types << Vehicle_Type.new("SUV")
