@@ -49,11 +49,12 @@ class Filter
 end
 
 db = DbConnection.new('dealership.db')
+table = 'VehicleModelYear'
 options = ["year", "make", "model"]
 
 options.each do |option|
-  c = db.count(option)
-  puts "#{option} has #{c} entries."
+  c = db.count(table + '.' + option)
+  puts "#{table}.#{option} has #{c} distinct entries."
 end
 
 #

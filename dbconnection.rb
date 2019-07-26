@@ -7,9 +7,11 @@ class DbConnection
     @VMY = "VehicleModelYear"
   end
 
-  def list(field)
+  def list(table_field)
     return_list = []
-    query = @db.prepare "SELECT DISTINCT(#{field}) FROM #{@VMY};"
+    tf = table_field.split('.')
+    table, field = tf
+    query = @db.prepare "SELECT DISTINCT(#{field}) FROM #{table};"
     result = query.execute
 
     result.each do |r|
@@ -19,8 +21,7 @@ class DbConnection
     return_list
   end
 
-  def count(field)
-    res = self.list(field)
-    res.size
+  def count(table_field)
+    list(table_field).size
   end
 end
