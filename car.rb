@@ -1,0 +1,23 @@
+class Car
+
+  attr_accessor :msrp
+  attr_accessor :sale_price
+  attr_accessor :is_new
+  attr_accessor :mileage
+  attr_accessor :door_count
+  attr_accessor :engine
+  attr_accessor :transmission
+  attr_accessor :body_style
+  attr_accessor :color
+  attr_accessor :description
+  attr_reader :vmy
+
+  def initialize(vmy)
+    @vmy = vmy
+  end
+
+  def sale_percent
+    msrp - sale_price / 100.0
+  end
+
+end
