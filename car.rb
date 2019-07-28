@@ -20,4 +20,8 @@ class Car
     msrp - sale_price / 100.0
   end
 
+  def to_s
+    "#{@vmy.year.to_s.ljust(6)} #{@vmy.make.ljust(10)} #{@vmy.model}"
+  end
+
 end
