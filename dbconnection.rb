@@ -56,7 +56,7 @@ class DbConnection
     insert_query_string = "INSERT INTO inventory (vmy_id, msrp, sale_price, new, mileage, door_count, engine, transmission, body_style, color, description)"
     insert_query_string += " VALUES (#{c.vmy.id}, #{'%.2f' % c.msrp}, #{'%.2f' % c.sale_price}, #{c.is_new}, #{c.mileage}, #{c.door_count}, '#{c.engine}', '#{c.transmission}', '#{c.body_style}', '#{c.color}', '#{c.description}');"
     query = @db.prepare insert_query_string
-    result = query.execute
+    query.execute
   end
 
 
