@@ -1,4 +1,5 @@
 require_relative 'dbconnection'
+require_relative 'filter'
 # Accessing the database
 db = DbConnection.new('dealership.db')
 # Ask the user what they want to filter by
@@ -32,20 +33,35 @@ elsif option == "3"
   end
 elsif option == "4"
   # Creates a new list of options from which the user chooses their range and gets their selection
-  puts "Please select a range of mileage options:\n1. 0-25,000\n2. 25,001-50,000\n3. 50,001-75,000\n4. 75,001-100,000"
+  puts "Please select a range of mileage options:\n1. 0-25,000\n2. 25,001-50,000\n3. 50,001-75,000\n4. 75,001-100,000\n5. 100,000+"
   mile_option = gets.chomp
+
   if mile_option == "1"
-    puts "These are the available vehicles in that range:"
-    # Will make a list from the database of the available vehicles
+    min = 0
+    max = 25000
   elsif mile_option == "2"
-    puts "These are the available vehicles in that range:"
-    # Will make a list from the database of the available vehicles
+    min = 25001
+    max = 50000
   elsif mile_option == "3"
-    puts "These are the available vehicles in that range:"
-    # Will make a list from the database of the available vehicles
+    min = 50001
+    max = 75000
   elsif mile_option == "4"
-    puts "These are the available vehicles in that range:"
-    # Will make a list from the database of the available vehicles
+    min = 75001
+    max = 100000
+  elsif mile_option == "5"
+    min = 100000
+    max = 100000000
+  else
+    puts "ERROR: Please choose an available option."
   end
-  
+  mile_filter = FilterRange.new("mileage")
+  mile_filter.min, mile_filter.max = min, max
+  mile_list = db.get_cars(mile_filter)
+  puts "These are the available vehicles in that range:"
+  mile_list.each do |list|
+    puts list
+  end
+else
+  puts "ERROR: Please choose an available option."
+
 end
