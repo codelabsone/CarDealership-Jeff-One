@@ -21,7 +21,7 @@ class Car
   end
 
   def to_s
-    "#{@vmy.year.to_s.ljust(6)} #{@vmy.make.ljust(10)} #{@vmy.model}"
+    "#{@color.ljust(10)} #{@vmy.year.to_s.ljust(6)} #{@vmy.make.ljust(10)} #{@vmy.model}"
   end
 
 end

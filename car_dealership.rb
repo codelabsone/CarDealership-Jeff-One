@@ -1,5 +1,6 @@
 require 'sqlite3'
 require_relative 'dbconnection'
+require_relative 'filter'
 
 class Vehicle_Type
   def initialize(type)
@@ -29,67 +30,21 @@ class Vehicle_Make
     end
 end
 
-class Filter
-  def initialize(name)
-    @name = name
-    @options = []
-  end
-
-  def add_option(option)
-    @options << option
-  end
-
-  def to_s
-    ret = "These #{@name}s are available:"
-    @options.each do |option|
-      ret += "\n" + option.to_s
-    end
-    ret
-  end
-end
 
 db = DbConnection.new('dealership.db')
-table = 'VehicleModelYear'
-options = ["year", "make", "model"]
+filters = []
+f1 = FilterAlpha.new('make')
+f1.value = 'ford'
+f2 = FilterAlpha.new('model')
+f2.value = 'focus'
+f3 = FilterRange.new('mileage')
+f3.min, f3.max = 10, 100000
+f4 = FilterRange.new('sale_price')
+f4.min, f4.max = 5000, 10000
 
-options.each do |option|
-  c = db.count(table + '.' + option)
-  puts "#{table}.#{option} has #{c} distinct entries."
+filters.append(f1, f2, f3, f4)
+
+carlist = db.get_cars(filters)
+carlist.each do |c|
+  puts c
 end
-
-#
-# TBL = "VehicleModelYear"
-#
-# query = db.prepare "SELECT DISTINCT(make) FROM '#{TBL}';"
-# result = query.execute
-#
-# result.each do |r|
-#   puts r
-# end
-
-# types = []
-# types << Vehicle_Type.new("SUV")
-# types << Vehicle_Type.new("truck")
-# types << Vehicle_Type.new("car")
-# types << Vehicle_Type.new("van")
-#
-# filter1 = Filter.new("Body Style")
-# types.each do |type|
-#   filter1.add_option(type)
-# end
-#
-# makes = []
-# makes << Vehicle_Make.new("ford")
-# makes << Vehicle_Make.new("chevrolet")
-# makes << Vehicle_Make.new("toyota")
-# makes << Vehicle_Make.new("dodge")
-# makes << Vehicle_Make.new("chrysler")
-#
-# filter2 = Filter.new("make")
-# makes.each do |make|
-#   filter2.add_option(make)
-# end
-#
-# puts filter1
-#
-# puts filter2
