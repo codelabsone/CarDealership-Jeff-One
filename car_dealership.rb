@@ -33,18 +33,12 @@ end
 
 db = DbConnection.new('dealership.db')
 filters = []
-f1 = FilterAlpha.new('make')
-f1.value = 'ford'
-f2 = FilterAlpha.new('model')
-f2.value = 'focus'
 f3 = FilterRange.new('mileage')
-f3.min, f3.max = 10, 100000
-f4 = FilterRange.new('sale_price')
-f4.min, f4.max = 5000, 10000
+f3.min, f3.max = 10, 1000
 
-filters.append(f1, f2, f3, f4)
+filters.append(f3)
 
 carlist = db.get_cars(filters)
 carlist.each do |c|
-  puts c
+  puts "#{c}: #{c.engine}"
 end

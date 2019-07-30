@@ -4,6 +4,10 @@ class Filter
     @name = name
   end
 
+  def length
+    0
+  end
+
 end
 
 class FilterAlpha < Filter
