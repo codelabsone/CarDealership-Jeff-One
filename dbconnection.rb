@@ -81,13 +81,18 @@ class DbConnection
     # check for at least one filter
     if filters.length > 0
       base_query += " WHERE"  # WHERE clause of select statement required to filter
-      filters.each do |f|
-        # Add the defined clause for each filter to the select statement
-        base_query += f.clause
-        if f != filters.last
-          base_query += " AND"
+      if filters.length > 1
+        filters.each do |f|
+          # Add the defined clause for each filter to the select statement
+          base_query += f.clause
+          if f != filters.last
+            base_query += " AND"
+          end
         end
       end
+    else
+      base_query += filters.clause
+    end
     end
     base_query += ";"
   end
