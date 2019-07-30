@@ -59,5 +59,49 @@ class DbConnection
     query.execute
   end
 
+  def create_car_from_row(row)
+    vmy = Vmy.new(row['year'], row['make'], row['model'])
+    car = Car.new(vmy)
+    car.msrp = row['msrp']
+    car.sale_price = row['sale_price']
+    car.is_new = row['new']
+    car.mileage = row['mileage']
+    car.door_count = row['door_count']
+    car.engine = row['engine']
+    car.transmission = row['transmission']
+    car.body_style = row['body_style']
+    car.color = row['color']
+    car.description = row['description']
+
+    car
+  end
+
+  def create_select_query(filters)
+    base_query = "SELECT inventory.*, VehicleModelYear.* FROM inventory JOIN VehicleModelYear ON inventory.vmy_id = VehicleModelYear.id"
+    # check for at least one filter
+    if filters.length > 0
+      base_query += " WHERE"  # WHERE clause of select statement required to filter
+      filters.each do |f|
+        # Add the defined clause for each filter to the select statement
+        base_query += f.clause
+        if f != filters.last
+          base_query += " AND"
+        end
+      end
+    end
+    base_query += ";"
+  end
+
+  def get_cars(filters)
+    cars = []
+    query_string = create_select_query(filters)
+    query = @db.prepare query_string
+    rows = query.execute
+    rows.each do |row|
+      cars.append(create_car_from_row(row))
+    end
+    cars
+  end
+
 
 end
