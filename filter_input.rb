@@ -1,8 +1,10 @@
+require_relative 'welcome'
 require_relative 'dbconnection'
 require_relative 'filter'
 # Accessing the database
 db = DbConnection.new('dealership.db')
 # Ask the user what they want to filter by
+puts "************ Group One Car's Inventory ************"
 puts "Please select what you'd like to filter by:\n1. Make\n2. Model\n3. Year\n4. Mileage"
 #gets the users input
 option = gets.chomp
@@ -54,6 +56,7 @@ elsif option == "4"
   else
     puts "ERROR: Please choose an available option."
   end
+  # Returns vehicles in chosen mileage ranges
   mile_filter = FilterRange.new("mileage")
   mile_filter.min, mile_filter.max = min, max
   mile_list = db.get_cars(mile_filter)
@@ -65,3 +68,8 @@ else
   puts "ERROR: Please choose an available option."
 
 end
+
+
+
+
+#to cennect files from a welcome page system("file name")
