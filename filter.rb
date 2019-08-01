@@ -5,7 +5,7 @@ class Filter
   end
 
   def length
-    0
+    1
   end
 
 end
