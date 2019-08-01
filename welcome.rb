@@ -8,7 +8,7 @@ puts "1. Inventory\n2. Sales Team\n3. Finance"
 selection = gets.chomp
 # Directs user to appropriate file based on selection
 if selection == "1"
-  system ("ruby filter_input.rb")
+  system ("ruby inventory_input.rb")
 elsif selection == "2"
   # Will enter path for Sales Team file
 elsif selection == "3"
