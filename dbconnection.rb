@@ -94,7 +94,7 @@ class DbConnection
       base_query += filters.clause
     end
     end
-    base_query += ";"
+    base_query = "base_query #{';'}"
   end
 
   def get_cars(filters)
@@ -107,6 +107,3 @@ class DbConnection
     end
     cars
   end
-
-
-end

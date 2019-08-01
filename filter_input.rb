@@ -1,4 +1,4 @@
-require_relative 'welcome'
+
 require_relative 'dbconnection'
 require_relative 'filter'
 # Accessing the database
