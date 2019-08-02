@@ -76,10 +76,10 @@ class DbConnection
     car
   end
 
-  def create_select_query(filters=nil)
+  def create_select_query(filters)
     base_query = "SELECT inventory.*, VehicleModelYear.* FROM inventory JOIN VehicleModelYear ON inventory.vmy_id = VehicleModelYear.id"
     # check if filters is array
-    if filters.class.name == "Array"
+    if filters.is_a? Array
       base_query += " WHERE"  # WHERE clause of select statement required to filter
       filters.each do |f|
         # Add the defined clause for each filter to the select statement
@@ -92,6 +92,7 @@ class DbConnection
       base_query += filters.clause
     end
     base_query += ';'
+    base_query
   end
 
   def get_cars(filters)

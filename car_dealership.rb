@@ -34,7 +34,7 @@ end
 db = DbConnection.new('dealership.db')
 filters = []
 f3 = FilterRange.new('mileage')
-f3.min, f3.max = 10, 1000
+f3.min, f3.max = 1000, 2000
 
 filters.append(f3)
 
