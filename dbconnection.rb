@@ -76,8 +76,12 @@ class DbConnection
     car
   end
 
-  def create_select_query(filters)
-    base_query = "SELECT inventory.*, VehicleModelYear.* FROM inventory JOIN VehicleModelYear ON inventory.vmy_id = VehicleModelYear.id"
+  def create_select_query(filters, table_name)
+    if table_name == 'inventory'
+      base_query = "SELECT inventory.*, VehicleModelYear.* FROM inventory JOIN VehicleModelYear ON inventory.vmy_id = VehicleModelYear.id"
+    elsif table_name == 'VehicleModelYear'
+      base_query = "SELECT * FROM VehicleModelYear"
+    end
     # check if filters is array
     if filters.is_a? Array
       base_query += " WHERE"  # WHERE clause of select statement required to filter
@@ -97,13 +101,24 @@ class DbConnection
 
   def get_cars(filters)
     cars = []
-    query_string = create_select_query(filters)
+    query_string = create_select_query(filters, "inventory")
     query = @db.prepare query_string
     rows = query.execute
     rows.each do |row|
       cars.append(create_car_from_row(row))
     end
     cars
+  end
+
+  def get_models(filters)
+    models = []
+    query_string = create_select_query(filters, "VehicleModelYear")
+    query = @db.prepare query_string
+    rows = query.execute
+    rows.each do |row|
+      models.append(row["model"])
+    end
+    models
   end
 
 end
