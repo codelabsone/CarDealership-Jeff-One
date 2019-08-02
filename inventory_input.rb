@@ -23,8 +23,9 @@ if option == "1"
   make_filter.value = select_make
 # Returns a list of the selected models available for the selected make of vehicle
   models = db.get_models(make_filter)
+  puts "The following models for #{select_make} are available:"
   models.each do |model|
-    puts "The following models are available for #{select_make}:\n#{model}"
+    model
   end
 elsif option == "2"
   puts "These are the available models you can select:"
