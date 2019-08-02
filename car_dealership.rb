@@ -40,5 +40,5 @@ filters.append(f3)
 
 carlist = db.get_cars(filters)
 carlist.each do |c|
-  puts "#{c}: #{c.engine}"
+  puts "#{c}: #{c.mileage}"
 end
