@@ -18,7 +18,7 @@ if option == "1"
     puts make_list
   end
 # User inputs the make they want to search by
-  select_make = gets.chomp
+  select_make = gets.chomp.capitalize
   make_filter = FilterAlpha.new("make")
   make_filter.value = select_make
 # Returns a list of the selected models available for the selected make of vehicle
