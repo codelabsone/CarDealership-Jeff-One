@@ -25,7 +25,7 @@ if option == "1"
   models = db.get_models(make_filter)
   puts "The following models for #{select_make} are available:"
   models.each do |model|
-    model
+    puts model
   end
 elsif option == "2"
   puts "These are the available models you can select:"

@@ -93,6 +93,7 @@ class DbConnection
         end
       end
     elsif filters.is_a? Filter
+      base_query += " WHERE"
       base_query += filters.clause
     end
     base_query += ';'
