@@ -1,4 +1,4 @@
-
+require 'sqlite3'
 require_relative 'dbconnection'
 require_relative 'filter'
 # Accessing the database
@@ -17,14 +17,29 @@ if option == "1"
   makes.each do |make_list|
     puts make_list
   end
+# User inputs the make they want to search by
+  select_make = gets.chomp
+  make_filter = FilterAlpha.new("make")
+  make_filter.value = select_make
+# Returns a list of the selected models available for the selected make of vehicle
+  models = db.get_models(make_filter)
+  models.each do |model|
+    puts "The following models are available for #{select_make}:\n#{model}"
+  end
 elsif option == "2"
   puts "These are the available models you can select:"
-  # Making a list from the database of the models
+# Making a list from the database of the models
   models = db.list("VehicleModelYear.model")
-  # Prints models in database
+# Prints models in database
   models.each do |model_list|
     puts model_list
   end
+#User inputs the model they want to search by
+  # select_model = gets.chomp
+  # model_filter = FilterAlpha.new("model")
+  # model_filter.value = select_model
+# Returns a list of the selected vehicles that are availble in the selected model
+#
 elsif option == "3"
   puts "These are the available years you can select:"
   # Making a list from the databse of the years
