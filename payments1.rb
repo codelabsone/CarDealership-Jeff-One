@@ -1,6 +1,10 @@
-sale_price = 30000
+#sale_price = 30000
 #int_rate = 0.05
 #months = 60
+
+puts "Enter the loan amount:"
+sale_price = gets.chomp
+sale_price = sale_price.to_f
 
 puts "Enter the loan annual percentage rate using decimals:"
 int_rate = gets.chomp
@@ -37,4 +41,4 @@ puts "Total payments will be #{monthly_payment.round(2)} per month for #{months}
 #
 #     puts "#{months}, "
 #
-#   end
+# end

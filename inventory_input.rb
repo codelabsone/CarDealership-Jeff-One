@@ -6,6 +6,7 @@ db = DbConnection.new('dealership.db')
 # Ask the user what they want to filter by
 puts "************ Group One Car's Inventory ************"
 puts "Please select what you'd like to filter by:\n1. Make\n2. Model\n3. Year\n4. Mileage"
+puts "Press 9 to return to the main menu"
 #gets the users input
 option = gets.chomp
 #returns the appropriate option based on the users input
@@ -80,12 +81,11 @@ elsif option == "4"
   mile_list.each do |list|
     puts list
   end
-else
-  puts "ERROR: Please choose an available option."
-
+else option == "9"
+  system ("ruby welcome.rb")
 end
 
 
 
 
-#to cennect files from a welcome page system("file name")
+#to connect files from a welcome page system("ruby file_name.rb")
