@@ -12,7 +12,7 @@ if selection == "1"
 elsif selection == "2"
   system ("ruby sales_team_input.rb")
 elsif selection == "3"
-  system ("ruby payments.rb")
+  system ("ruby finance_team_input.rb")
 else
   puts "ERROR: Please select an availble option"
 end
