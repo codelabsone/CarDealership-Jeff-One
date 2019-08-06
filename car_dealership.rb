@@ -11,13 +11,6 @@ class DealershipApp
     @name = name
     @db = DbConnection.new('dealership.db')
     @filters = []
-    @list_filters = Proc.new do
-      puts "\n\nThe current filters are in place"
-      @filters.each do |filter|
-        puts filter
-      end
-      puts "\n\n"
-    end
     @main_menu = Menu.new(self, "Main Menu")
     @inventory_menu = create_inventory_menu
     @main_menu.add_option(@inventory_menu)
@@ -37,13 +30,17 @@ class DealershipApp
     filters_menu = create_filter_menu
     inventory_menu.add_option(filters_menu)
 
-    inventory_menu.add_option(MenuCommand.new("List Filters", @list_filters))
+    inventory_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
     inventory_menu
   end
 
-  # def list_filters
-  #   puts "These are the current chosen filters"
-  #   @filters
+  def list_filters
+    puts "These are the current chosen filters"
+    @filters.each do |filter|
+      puts filter
+    end
+    puts "\n"
+  end
 
   def run
     @main_menu.run
