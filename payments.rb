@@ -26,15 +26,15 @@ puts "Total payments will be #{monthly_payment.round(2)} per month for #{months}
 
 # Works down to this point. Rest is in progress.
 
-puts "Would you like a complete amortization table? (Y or N)"
-amort_table = gets.chomp
-
-if amort_table.capitalize == "Y"
-  puts "Number Principal Interest Balance"
-  months.times do |months|
-  final_price = principal
-  int_payment = principal * int_rate
-
-    puts "#{months}, "
-    
-  end
+# puts "Would you like a complete amortization table? (Y or N)"
+# amort_table = gets.chomp
+#
+# if amort_table.capitalize == "Y"
+#   puts "Number Principal Interest Balance"
+#   months.times do |months|
+#   final_price = principal
+#   int_payment = principal * int_rate
+#
+#     puts "#{months}, "
+#
+#   end

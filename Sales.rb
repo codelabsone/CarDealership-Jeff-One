@@ -26,9 +26,9 @@ class Sales_Team
   end
 end
 
-sales1 = Sales_Team.new("Dustin", "Dustin@car.com", "573-225-1234").to_s
-sales2 = Sales_Team.new("Debbie", "Debbie@car.com", "573-225-9876").to_s
+sales1 = Sales_People.new("Dustin", "Dustin@car.com", "573-225-1234")
+sales2 = Sales_People.new("Debbie", "Debbie@car.com", "573-225-9876")
 
-$sales_team = Sales_Team1.new
+$sales_team = Sales_Team.new
 $sales_team.add_sales(sales1)
 $sales_team.add_sales(sales2)
