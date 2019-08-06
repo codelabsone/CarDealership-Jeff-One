@@ -10,7 +10,7 @@ selection = gets.chomp
 if selection == "1"
   system ("ruby inventory_input.rb")
 elsif selection == "2"
-  # Will enter path for Sales Team file
+  system ("ruby sales_team_input.rb")
 elsif selection == "3"
   # Will enter path for Finance file
 else
