@@ -32,3 +32,36 @@ class FilterRange < Filter
     " #{@name.downcase} BETWEEN #{@min} AND #{@max}"
   end
 end
+
+class FilterInput
+
+  def initialize(parent, name)
+    @parent = parent
+    @name = name
+  end
+
+end
+
+class FilterNameInput < FilterInput
+
+  def run
+    puts "Enter the #{@name} you want to look for: "
+    filter_value = gets.chomp
+    @parent.filters << FilterAlpha.new(@name, filter_value.capitalize)
+  end
+
+end
+
+class FilterRangeInput < FilterInput
+
+  def run
+    puts "Enter the minimum #{@name} you want: "
+    min = gets.chomp
+    puts "Enter the maxiumum #{@name} you want: "
+    max = gets.chomp
+    min = (min == '') ? 0 : min.to_i
+    max = (max == '') ? 1000000 : max.to_i
+    @parent.filters << FilterRange.new(@name, min, max)
+  end
+
+end

@@ -36,5 +36,5 @@ if amort_table.capitalize == "Y"
   int_payment = principal * int_rate
 
     puts "#{months}, "
-    
+
   end
