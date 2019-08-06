@@ -1,44 +1,65 @@
 require 'sqlite3'
 require_relative 'dbconnection'
 require_relative 'filter'
+require_relative 'menu'
 
-class Vehicle_Type
-  def initialize(type)
-    @type = type.capitalize
+class DealershipApp
+
+  attr_accessor :filters
+
+  def initialize(name)
+    @name = name
+    @db = DbConnection.new('dealership.db')
+    @filters = []
+    @main_menu = Menu.new(self, "Main Menu")
+    @inventory_menu = create_inventory_menu
+    @main_menu.add_option(@inventory_menu)
   end
 
-    def type=(new_type)
-      @type = new_type.capitalize
-    end
-
-    def to_s
-      "#{@type}"
-    end
-end
-
-class Vehicle_Make
-  def initialize(make)
-    @make = make.capitalize
+  def create_filter_menu
+    filter_menu = Menu.new(self, "Add Filters")
+    filter_menu.add_option(FilterNameInput.new(self, 'make'))
+    filter_menu.add_option(FilterNameInput.new(self, 'model'))
+    filter_menu.add_option(FilterRangeInput.new(self, 'year'))
+    filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
+    filter_menu
   end
 
-    def make=(new_make)
-      @make = new_make.capitalize
-    end
+  def create_inventory_menu
+    inventory_menu = Menu.new(self, "Inventory Search")
+    filters_menu = create_filter_menu
+    inventory_menu.add_option(filters_menu)
 
-    def to_s
-      "#{@make}"
+    inventory_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
+    inventory_menu
+  end
+
+  def list_filters
+    puts "These are the current chosen filters"
+    @filters.each do |filter|
+      puts filter
     end
+    puts "\n"
+  end
+
+  def run
+    @main_menu.run
+  end
+
 end
 
+# db = DbConnection.new('dealership.db')
+# filters = []
+# f3 = FilterRange.new('mileage')
+# f3.min, f3.max = 1000, 2000
+#
+# filters.append(f3)
+#
+# carlist = db.get_cars(filters)
+# carlist.each do |c|
+#   puts "#{c}: #{c.mileage}"
+# end
 
-db = DbConnection.new('dealership.db')
-filters = []
-f3 = FilterRange.new('mileage')
-f3.min, f3.max = 1000, 2000
+app = DealershipApp.new("JeffGroupOne")
 
-filters.append(f3)
-
-carlist = db.get_cars(filters)
-carlist.each do |c|
-  puts "#{c}: #{c.mileage}"
-end
+app.run
