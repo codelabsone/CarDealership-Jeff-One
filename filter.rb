@@ -34,6 +34,7 @@ class FilterRange < Filter
 end
 
 class FilterInput
+  attr_reader :name
 
   def initialize(parent, name)
     @parent = parent
@@ -47,7 +48,8 @@ class FilterNameInput < FilterInput
   def run
     puts "Enter the #{@name} you want to look for: "
     filter_value = gets.chomp
-    @parent.filters << FilterAlpha.new(@name, filter_value.capitalize)
+    @parent.filters << FilterAlpha.new(@name)
+    @parent.filters.last.value = filter_value
   end
 
 end
@@ -61,7 +63,9 @@ class FilterRangeInput < FilterInput
     max = gets.chomp
     min = (min == '') ? 0 : min.to_i
     max = (max == '') ? 1000000 : max.to_i
-    @parent.filters << FilterRange.new(@name, min, max)
+    @parent.filters << FilterRange.new(@name)
+    @parent.filters.last.min = min
+    @parent.filters.last.max = max
   end
 
 end

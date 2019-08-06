@@ -11,31 +11,58 @@ class DealershipApp
     @name = name
     @db = DbConnection.new('dealership.db')
     @filters = []
+    @list_filters = Proc.new do
+      puts "\n\nThe current filters are in place"
+      @filters.each do |filter|
+        puts filter
+      end
+      puts "\n\n"
+    end
     @main_menu = Menu.new(self, "Main Menu")
     @inventory_menu = create_inventory_menu
+    @main_menu.add_option(@inventory_menu)
+  end
 
-    main_menu.add_option(inventory_menu)
+  def create_filter_menu
+    filter_menu = Menu.new(self, "Add Filters")
+    filter_menu.add_option(FilterNameInput.new(self, 'make'))
+    filter_menu.add_option(FilterNameInput.new(self, 'model'))
+    filter_menu.add_option(FilterRangeInput.new(self, 'year'))
+    filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
+    filter_menu
   end
 
   def create_inventory_menu
     inventory_menu = Menu.new(self, "Inventory Search")
-    inventory_menu.add_option(FilterNameInput.new('make'))
-    inventory_menu.add_option(FilterNameInput.new('model'))
-    inventory_menu.add_option(FilterRangeInput.new('year'))
-    inventory_menu.add_option(FilterRangeInput.new('mileage'))
+    filters_menu = create_filter_menu
+    inventory_menu.add_option(filters_menu)
+
+    inventory_menu.add_option(MenuCommand.new("List Filters", @list_filters))
     inventory_menu
+  end
+
+  # def list_filters
+  #   puts "These are the current chosen filters"
+  #   @filters
+
+  def run
+    @main_menu.run
   end
 
 end
 
-db = DbConnection.new('dealership.db')
-filters = []
-f3 = FilterRange.new('mileage')
-f3.min, f3.max = 1000, 2000
+# db = DbConnection.new('dealership.db')
+# filters = []
+# f3 = FilterRange.new('mileage')
+# f3.min, f3.max = 1000, 2000
+#
+# filters.append(f3)
+#
+# carlist = db.get_cars(filters)
+# carlist.each do |c|
+#   puts "#{c}: #{c.mileage}"
+# end
 
-filters.append(f3)
+app = DealershipApp.new("JeffGroupOne")
 
-carlist = db.get_cars(filters)
-carlist.each do |c|
-  puts "#{c}: #{c.mileage}"
-end
+app.run

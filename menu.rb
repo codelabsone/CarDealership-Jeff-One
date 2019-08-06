@@ -1,31 +1,34 @@
 class Menu
-
+  attr_reader :name
   def initialize(parent, name)
     @parent = parent
     @name = name
+    @options = []
   end
 
   def show
     puts @name
     puts "Please select an option ('quit' to exit):"
-    puts "*" * 30
+    puts "*" * 50
     @options.each_with_index do |option, index|
-      puts "(#{index}) #{option.name}"
+      puts "(#{index}) #{option.name.capitalize}"
     end
   end
 
   def get_choice
-    @choice = gets
+    @choice = gets.chomp
+    # puts "#{@choice} in get_choice"
   end
 
   def run
-    show
-    get_choice
     loop do
-      if Integer(@choice) < @options.length
-        @options[@choice].run
-      elsif @choice == 'quit'
+      show
+      get_choice
+      if @choice == 'quit'
+        # puts "quitting"
         break
+      elsif @choice.to_i < @options.length
+        @options[@choice.to_i].run
       else
         puts "Invalid option entered. Please enter a valid option."
       end
@@ -33,7 +36,20 @@ class Menu
   end
 
   def add_option(option)
-    @option << option
+    @options << option
+  end
+
+end
+
+class MenuCommand
+  attr_reader :name
+  def initialize(name, command)
+    @name = name
+    @command = command
+  end
+
+  def run
+    @command.call
   end
 
 end
