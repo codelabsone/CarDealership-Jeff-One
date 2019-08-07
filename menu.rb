@@ -55,7 +55,10 @@ class MenuCommand
   end
 
   def run
-    @command.call(@args[0])
+    if @args.length == 1
+      @args = @args[0]
+    end
+    @command.call(@args)
   end
 
 end

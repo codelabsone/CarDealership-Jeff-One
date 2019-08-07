@@ -47,6 +47,7 @@ class FilterNameInput < FilterInput
 
   def run
     puts "Enter the #{@name} you want to look for: "
+    print "> "
     filter_value = gets.chomp
     @parent.filters << FilterAlpha.new(@name)
     @parent.filters.last.value = filter_value
@@ -58,8 +59,10 @@ class FilterRangeInput < FilterInput
 
   def run
     puts "Enter the minimum #{@name} you want: "
+    print "> "
     min = gets.chomp
     puts "Enter the maxiumum #{@name} you want: "
+    print "> "
     max = gets.chomp
     min = (min == '') ? 0 : min.to_i
     max = (max == '') ? 1000000 : max.to_i
