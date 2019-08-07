@@ -2,18 +2,23 @@ require 'sqlite3'
 require_relative 'dbconnection'
 require_relative 'filter'
 require_relative 'menu'
+require_relative 'Sales'
 
 class DealershipApp
 
-  attr_accessor :filters
+  attr_accessor :filters, :break
 
   def initialize(name)
     @name = name
     @db = DbConnection.new('dealership.db')
     @filters = []
+    @sales_team = []
+    load_sales_team('sales.csv')
+    @sales_team_menu = create_sales_team_menu
     @main_menu = Menu.new(self, "Main Menu")
     @inventory_menu = create_inventory_menu
     @main_menu.add_option(@inventory_menu)
+    @main_menu.add_option(@sales_team_menu)
   end
 
   def create_filter_menu
@@ -40,6 +45,28 @@ class DealershipApp
       puts filter
     end
     puts "\n"
+  end
+
+  def create_sales_team_menu
+    sales_team_menu = Menu.new(self, "Sales Team")
+    @sales_team.each do |member|
+      sales_team_menu.add_option(MenuCommand.new(member.name, Proc.new {|m| show_sales_member(m)}, member))
+    end
+    sales_team_menu
+  end
+
+  def show_sales_member(member)
+    # member = @sales_team[index]
+    puts "\nName: #{member.name}"
+    puts "Email: #{member.email}"
+    puts "Phone: #{member.phone}\n"
+    @break = true
+  end
+
+  def load_sales_team(file_name)
+    File.readlines(file_name).each do |line|
+      @sales_team << Sales_Person.from_csv(line)
+    end
   end
 
   def run
