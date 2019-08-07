@@ -21,8 +21,8 @@ class DealershipApp
     @main_menu.add_option(@sales_team_menu)
   end
 
-  def create_filter_menu
-    filter_menu = Menu.new(self, "Add Filters")
+  def create_filter_menu(parent)
+    filter_menu = Menu.new(parent, "Add Filters")
     filter_menu.add_option(FilterNameInput.new(self, 'make'))
     filter_menu.add_option(FilterNameInput.new(self, 'model'))
     filter_menu.add_option(FilterRangeInput.new(self, 'year'))
@@ -32,7 +32,7 @@ class DealershipApp
 
   def create_inventory_menu
     inventory_menu = Menu.new(self, "Inventory Search")
-    filters_menu = create_filter_menu
+    filters_menu = create_filter_menu(inventory_menu)
     inventory_menu.add_option(filters_menu)
 
     inventory_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
@@ -56,7 +56,6 @@ class DealershipApp
   end
 
   def show_sales_member(member)
-    # member = @sales_team[index]
     puts "\nName: #{member.name}"
     puts "Email: #{member.email}"
     puts "Phone: #{member.phone}\n"
