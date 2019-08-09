@@ -15,6 +15,7 @@ class PaginatedMenu < Menu
     puts "('back' to go back, 'exit' to quit)"
     puts "('p' for previous page, 'n' for next page)"
     puts "*" * 50
+    puts "Page: #{@current_page}"
 
     @options[start..final].each_with_index do |option, index|
       puts "(#{index}) #{option.name}"
@@ -40,14 +41,22 @@ class PaginatedMenu < Menu
         break
       elsif @choice == 'exit'
         abort
-      elsif @choice == 'p' and @current_page != 0
-        @current_page -= 1
+      elsif @choice == 'p'
+        if @current_page != 0
+          @current_page -= 1
+        else
+          puts "No previous page"
+        end
         next
-      elsif @choice == 'n' and (@current_page + 1) * 10 <= @options.length
-        @current_page -= 1
+      elsif @choice == 'n'
+        if(@current_page + 1) * 10 <= @options.length
+          @current_page += 1
+        else
+          puts "No next page"
+        end
         next
       elsif @choice.to_i < @options[start..final].length
-        @options[start..final][@choice].run
+        @options[start..final][@choice.to_i].run
       else
         puts "Invalid option entered. Please enter a valid option."
       end

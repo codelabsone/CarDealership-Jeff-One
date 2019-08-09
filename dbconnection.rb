@@ -82,6 +82,7 @@ class DbConnection
       clause += ' WHERE'
       filters.keys.each do |key|
 
+        clause += ' ('
         # For each set of filters by type/key
         filters[key].each do |filter|
           # for each filter of the type, add the clause
@@ -90,6 +91,8 @@ class DbConnection
           if filter != filters[key].last
             # add OR operator if not the last of this filter type
             clause += ' OR'
+          else
+            clause += ')'
           end
 
         end
