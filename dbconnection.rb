@@ -76,26 +76,42 @@ class DbConnection
     car
   end
 
+  def construct_where_clause(filters)
+    clause = ''
+    if filters.length > 0 # for at least one filter, add the where clause
+      clause += ' WHERE'
+      filters.keys.each do |key|
+
+        # For each set of filters by type/key
+        filters[key].each do |filter|
+          # for each filter of the type, add the clause
+          clause += filter.clause
+
+          if filter != filters[key].last
+            # add OR operator if not the last of this filter type
+            clause += ' OR'
+          end
+
+        end
+
+        if key != filters.keys.last
+
+          # add AND operator if not the last filter type
+          clause += ' AND'
+        end
+
+      end
+    end
+    clause # return the clause string
+  end
+
   def create_select_query(filters, table_name)
     if table_name == 'inventory'
       base_query = "SELECT inventory.*, VehicleModelYear.* FROM inventory JOIN VehicleModelYear ON inventory.vmy_id = VehicleModelYear.id"
     elsif table_name == 'VehicleModelYear'
       base_query = "SELECT * FROM VehicleModelYear"
     end
-    # check if filters is array
-    if filters.is_a? Array
-      base_query += " WHERE"  # WHERE clause of select statement required to filter
-      filters.each do |f|
-        # Add the defined clause for each filter to the select statement
-        base_query += f.clause
-        if f != filters.last
-          base_query += " AND"
-        end
-      end
-    elsif filters.is_a? Filter
-      base_query += " WHERE"
-      base_query += filters.clause
-    end
+    base_query += construct_where_clause(filters)
     base_query += ';'
     base_query
   end
