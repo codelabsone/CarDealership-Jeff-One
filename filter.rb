@@ -41,6 +41,16 @@ class FilterInput
     @name = name
   end
 
+  def add_to_parent(filter)
+
+    if @parent.filters[@name].is_a? Array
+      @parent.filters[@name] << filter
+    else
+      @parent.filters[@name] = Array.new()
+      @parent.filters[@name] << filter
+    end
+  end
+
 end
 
 class FilterNameInput < FilterInput
@@ -49,8 +59,9 @@ class FilterNameInput < FilterInput
     puts "Enter the #{@name} you want to look for: "
     print "> "
     filter_value = gets.chomp
-    @parent.filters << FilterAlpha.new(@name)
-    @parent.filters.last.value = filter_value
+    f = FilterAlpha.new(@name)
+    f.value = filter_value
+    add_to_parent(f)
   end
 
 end
@@ -66,9 +77,10 @@ class FilterRangeInput < FilterInput
     max = gets.chomp
     min = (min == '') ? 0 : min.to_i
     max = (max == '') ? 1000000 : max.to_i
-    @parent.filters << FilterRange.new(@name)
-    @parent.filters.last.min = min
-    @parent.filters.last.max = max
+    f = FilterRange.new(@name)
+    f.min = min
+    f.max = max
+    add_to_parent(f)
   end
 
 end

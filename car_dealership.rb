@@ -11,18 +11,20 @@ class DealershipApp
   def initialize(name)
     @name = name
     @db = DbConnection.new('dealership.db')
-    @filters = []
+    @filters = Hash.new()
     @sales_team = []
     load_sales_team('sales.csv')
+
     @sales_team_menu = create_sales_team_menu
-    @main_menu = Menu.new(self, "Main Menu")
     @inventory_menu = create_inventory_menu
+
+    @main_menu = Menu.new(self, "Main Menu")
     @main_menu.add_option(@inventory_menu)
     @main_menu.add_option(@sales_team_menu)
   end
 
-  def create_filter_menu(parent)
-    filter_menu = Menu.new(parent, "Add Filters")
+  def create_filter_menu
+    filter_menu = Menu.new(self, "Add Filters")
     filter_menu.add_option(FilterNameInput.new(self, 'make'))
     filter_menu.add_option(FilterNameInput.new(self, 'model'))
     filter_menu.add_option(FilterRangeInput.new(self, 'year'))
@@ -32,7 +34,7 @@ class DealershipApp
 
   def create_inventory_menu
     inventory_menu = Menu.new(self, "Inventory Search")
-    filters_menu = create_filter_menu(inventory_menu)
+    filters_menu = create_filter_menu
     inventory_menu.add_option(filters_menu)
 
     inventory_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
@@ -41,8 +43,10 @@ class DealershipApp
 
   def list_filters
     puts "These are the current chosen filters"
-    @filters.each do |filter|
-      puts filter
+    @filters.keys.each do |key|
+      @filters[key].each do |filter|
+        puts filter
+      end
     end
     puts "\n"
   end
@@ -50,7 +54,7 @@ class DealershipApp
   def create_sales_team_menu
     sales_team_menu = Menu.new(self, "Sales Team")
     @sales_team.each do |member|
-      sales_team_menu.add_option(MenuCommand.new(member.name, Proc.new {|m| show_sales_member(m)}, member))
+      sales_team_menu.add_option(MenuCommand.new(member.name, Proc.new {|member| show_sales_member(member)}))
     end
     sales_team_menu
   end
