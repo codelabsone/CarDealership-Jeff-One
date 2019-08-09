@@ -29,6 +29,8 @@ class DealershipApp
     filter_menu.add_option(FilterNameInput.new(self, 'model'))
     filter_menu.add_option(FilterRangeInput.new(self, 'year'))
     filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
+    filter_menu.add_option(FilterRangeInput.new(self, 'sale_price'))
+    filter_menu.add_option(FilterNameInput.new(self, 'color'))
     filter_menu
   end
 
