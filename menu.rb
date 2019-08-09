@@ -33,6 +33,10 @@ class Menu
     @choice = gets.chomp
   end
 
+  def is_int?(s)
+    true if Integer(s) rescue false
+  end
+
   def run
     #################################################
     #
@@ -55,10 +59,14 @@ class Menu
         break
       elsif @choice == 'exit' # exit program
         abort
-      elsif @choice.to_i < @options.length # run the option from the desired input
-        @options[@choice.to_i].run
+      elsif is_int?(@choice)
+        if @choice.to_i < @options.length # run the option from the desired input
+          @options[@choice.to_i].run
+        else
+          puts "\nInvalid option entered. Please enter a valid option."
+        end
       else
-        puts "Invalid option entered. Please enter a valid option."
+        puts "\nInvalid option entered. Please enter a valid option.\n"
       end
     end
   end

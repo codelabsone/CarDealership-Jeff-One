@@ -55,10 +55,14 @@ class PaginatedMenu < Menu
           puts "No next page"
         end
         next
-      elsif @choice.to_i < @options[start..final].length
-        @options[start..final][@choice.to_i].run
+      elsif is_int?(@choice)
+        if @choice.to_i < @options[start..final].length
+          @options[start..final][@choice.to_i].run
+        else
+          puts "\nInvalid option entered. Please enter a valid option.\n"
+        end
       else
-        puts "Invalid option entered. Please enter a valid option."
+        puts "\nInvalid option entered. Please enter a valid option.\n"
       end
 
     end
