@@ -9,13 +9,15 @@ class PaginatedMenu < Menu
 
   def show
     start = @current_page * 10
+    max_page = (@options.length - 1) / 10
     final = start + 9
-    puts @name
+    puts "\n#{@name}"
     puts "Please select an option:"
     puts "('back' to go back, 'exit' to quit)"
     puts "('p' for previous page, 'n' for next page)"
     puts "*" * 50
-    puts "Page: #{@current_page}"
+    puts "\nPage #{@current_page+1} of #{max_page+1}"
+    puts "#{@options.length} vehicles found\n\n"
 
     @options[start..final].each_with_index do |option, index|
       puts "(#{index}) #{option.name}"

@@ -20,7 +20,7 @@ class Menu
     #   can refactor to use hashes/keys instead
     #
     #################################################
-    puts @name
+    puts "\n#{@name}"
     puts "Please select an option: ('back' to go back, 'exit' to quit)"
     puts "*" * 50
     @options.each_with_index do |option, index|
