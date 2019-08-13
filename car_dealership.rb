@@ -52,10 +52,15 @@ class DealershipApp
     remove_filters = PaginatedMenu.new(self, "Remove filters")
     @filters.keys.each do |key|
       @filters[key].each do |filter|
-        remove_filters.add_option(MenuCommand.new(filter.to_s, Proc.new { @filters.remove(filter)}))
+        remove_filters.add_option(MenuCommand.new(filter.to_s, Proc.new { |key, filter| remove_filter(key, filter)}, key, filter))
       end
     end
     remove_filters
+  end
+
+  def remove_filter(key, filter)
+    @filters[key].delete(filter)
+    @break = true
   end
 
   def create_inventory_menu
