@@ -30,18 +30,21 @@ puts "Total payments will be #{monthly_payment.round(2)} per month for #{months}
 
 # Works down to this point. Rest is in progress.
 
-puts "Would you like a complete amortization table? (Y or N)"
+puts "\nWould you like a complete amortization table? (Y or N)"
 amort_table = gets.chomp
 
 
 if amort_table.capitalize == "Y"
-  puts "Amortization for a #{final_price} loan over #{months} months with an APR of #{int_rate}"
-  puts "Payment Number - Principal Payment - Interest Payment - Balance"
+  puts "\n**********************************************************************************************"
+  puts "Amortization for a $#{final_price} loan over #{months} months with an APR of #{int_rate*100}%"
+  puts "\nPayment Number - Principal Payment - Interest Payment - Loan Balance"
   balance = final_price
   1.upto(months) do |m|
     int_payment = balance * (int_rate/12)
     princ_payment = monthly_payment - int_payment
     balance -= princ_payment
-    puts "#{m}, #{princ_payment.round(2)}, #{int_payment.round(2)}, #{balance.round(2)}"
+    puts "#{m.to_s.center(14)} #{format('$%.2f', princ_payment).center(20)} #{format('$%.2f', int_payment).center(20)} #{format('$%.2f', balance.abs).center(20)}"
   end
+    puts "**********************************************************************************************"
 end
+#format("$%.2f",3.3)
