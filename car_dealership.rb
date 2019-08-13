@@ -4,6 +4,7 @@ require_relative 'filter'
 require_relative 'menu'
 require_relative 'paginated_menu'
 require_relative 'Sales'
+require_relative 'vehicle_finance_calc'
 
 class DealershipApp
 
@@ -52,7 +53,7 @@ class DealershipApp
   end
 
   def create_car_menu(car)
-    m = Menu.new(self, "#{car.vmy.year} #{car.vmy.make} #{car.vmy.model}")
+    m = Menu.new(self, "#{car.year} #{car.make} #{car.model}")
     details = MenuCommand.new("View Details", Proc.new {|c| show_car_details(c)}, car)
     finance = MenuCommand.new("Finance", Proc.new{|c| finance_car(c)}, car)
 
@@ -66,6 +67,8 @@ class DealershipApp
   end
 
   def finance_car(car)
+    financing = VehicleFinanceCalc.new(car)
+    financing.run
   end
 
   def view_inventory_menu_command
@@ -91,7 +94,8 @@ class DealershipApp
     puts "\n"
   end
 
-  def show_inventory(filters)
+  def remove_filter_menu_command
+    
   end
 
   def create_sales_team_menu

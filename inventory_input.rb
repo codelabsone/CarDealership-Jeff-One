@@ -20,7 +20,7 @@ if option == "1"
   end
 # User inputs the make they want to search by
   select_make = gets.chomp.capitalize
-  make_filter = FilterAlpha.new("make")
+  make_filter = FilterName.new("make")
   make_filter.value = select_make
 # Returns a list of the selected models available for the selected make of vehicle
   models = db.get_models(make_filter)
@@ -38,7 +38,7 @@ elsif option == "2"
   end
 #User inputs the model they want to search by
   # select_model = gets.chomp
-  # model_filter = FilterAlpha.new("model")
+  # model_filter = FilterName.new("model")
   # model_filter.value = select_model
 # Returns a list of the selected vehicles that are availble in the selected model
 #
