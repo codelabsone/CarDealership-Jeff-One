@@ -40,7 +40,22 @@ class DealershipApp
     filter_menu = Menu.new(self, "Filters")
     filter_menu.add_option(create_add_filter_menu)
     filter_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
+    filter_menu.add_option(MenuCommand.new("Remove Filters", Proc.new { create_remove_filters_command}))
     filter_menu
+  end
+
+  def create_remove_filters_command
+    create_remove_filters.run
+  end
+
+  def create_remove_filters
+    remove_filters = PaginatedMenu.new(self, "Remove filters")
+    @filters.keys.each do |key|
+      @filters[key].each do |filter|
+        remove_filters.add_option(MenuCommand.new(filter.to_s, Proc.new { @filters.remove(filter)}))
+      end
+    end
+    remove_filters
   end
 
   def create_inventory_menu
@@ -95,7 +110,7 @@ class DealershipApp
   end
 
   def remove_filter_menu_command
-    
+
   end
 
   def create_sales_team_menu
