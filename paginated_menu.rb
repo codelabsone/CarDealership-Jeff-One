@@ -17,7 +17,7 @@ class PaginatedMenu < Menu
     puts "('p' for previous page, 'n' for next page)"
     puts "*" * 50
     puts "\nPage #{@current_page+1} of #{max_page+1}"
-    puts "#{@options.length} vehicles found\n\n"
+    puts "#{@options.length} entries found\n\n"
 
     @options[start..final].each_with_index do |option, index|
       puts "(#{index}) #{option.name}"

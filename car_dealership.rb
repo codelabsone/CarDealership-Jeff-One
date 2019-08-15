@@ -4,6 +4,7 @@ require_relative 'filter'
 require_relative 'menu'
 require_relative 'paginated_menu'
 require_relative 'Sales'
+require_relative 'vehicle_finance_calc'
 
 class DealershipApp
 
@@ -39,7 +40,27 @@ class DealershipApp
     filter_menu = Menu.new(self, "Filters")
     filter_menu.add_option(create_add_filter_menu)
     filter_menu.add_option(MenuCommand.new("List Filters", Proc.new { list_filters }))
+    filter_menu.add_option(MenuCommand.new("Remove Filters", Proc.new { create_remove_filters_command}))
     filter_menu
+  end
+
+  def create_remove_filters_command
+    create_remove_filters.run
+  end
+
+  def create_remove_filters
+    remove_filters = PaginatedMenu.new(self, "Remove filters")
+    @filters.keys.each do |key|
+      @filters[key].each do |filter|
+        remove_filters.add_option(MenuCommand.new(filter.to_s, Proc.new { |key, filter| remove_filter(key, filter)}, key, filter))
+      end
+    end
+    remove_filters
+  end
+
+  def remove_filter(key, filter)
+    @filters[key].delete(filter)
+    @break = true
   end
 
   def create_inventory_menu
@@ -52,7 +73,7 @@ class DealershipApp
   end
 
   def create_car_menu(car)
-    m = Menu.new(self, "#{car.vmy.year} #{car.vmy.make} #{car.vmy.model}")
+    m = Menu.new(self, "#{car.year} #{car.make} #{car.model}")
     details = MenuCommand.new("View Details", Proc.new {|c| show_car_details(c)}, car)
     finance = MenuCommand.new("Finance", Proc.new{|c| finance_car(c)}, car)
 
@@ -66,6 +87,8 @@ class DealershipApp
   end
 
   def finance_car(car)
+    financing = VehicleFinanceCalc.new(car)
+    financing.run
   end
 
   def view_inventory_menu_command
@@ -91,7 +114,8 @@ class DealershipApp
     puts "\n"
   end
 
-  def show_inventory(filters)
+  def remove_filter_menu_command
+
   end
 
   def create_sales_team_menu

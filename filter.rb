@@ -10,7 +10,7 @@ class Filter
 
 end
 
-class FilterAlpha < Filter
+class FilterName < Filter
   attr_accessor :value
 
   def to_s
@@ -59,7 +59,7 @@ class FilterNameInput < FilterInput
     puts "Enter the #{@name} you want to look for: "
     print "> "
     filter_value = gets.chomp
-    f = FilterAlpha.new(@name)
+    f = FilterName.new(@name)
     f.value = filter_value
     add_to_parent(f)
   end

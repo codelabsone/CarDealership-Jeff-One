@@ -10,10 +10,12 @@ class Car
   attr_accessor :body_style
   attr_accessor :color
   attr_accessor :description
-  attr_reader :vmy
+  attr_reader :year, :make, :model
 
   def initialize(vmy)
-    @vmy = vmy
+    @year = vmy.year
+    @make = vmy.make
+    @model = vmy.model
   end
 
   def sale_percent
