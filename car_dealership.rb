@@ -11,6 +11,7 @@ class DealershipApp
   attr_accessor :filters, :break
 
   def initialize(name)
+    clear_screen
     @name = name
     @db = DbConnection.new('dealership.db')
     @filters = Hash.new()
@@ -25,16 +26,55 @@ class DealershipApp
     @main_menu.add_option(@sales_team_menu)
   end
 
+  # def create_add_filter_menu
+  #   add_filter_menu = Menu.new(self, "Add Filters")
+  #   add_filter_menu.add_option(FilterNameInput.new(self, 'make'))
+  #   add_filter_menu.add_option(FilterNameInput.new(self, 'model'))
+  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'year'))
+  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
+  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'sale_price'))
+  #   add_filter_menu.add_option(FilterNameInput.new(self, 'color'))
+  #   add_filter_menu
+  # end
+
   def create_add_filter_menu
     add_filter_menu = Menu.new(self, "Add Filters")
-    add_filter_menu.add_option(FilterNameInput.new(self, 'make'))
-    add_filter_menu.add_option(FilterNameInput.new(self, 'model'))
-    add_filter_menu.add_option(FilterRangeInput.new(self, 'year'))
-    add_filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
-    add_filter_menu.add_option(FilterRangeInput.new(self, 'sale_price'))
-    add_filter_menu.add_option(FilterNameInput.new(self, 'color'))
+
+    make_menu = PaginatedMenu.new(self, "Make Filter")
+    make_list = @db.list("VehicleModelYear.make")
+    make_list.each do |make|
+      make_menu.add_option(MenuCommand.new(make, Proc.new { |type, value| add_name_filter(type, value) }, 'make', make))
+    end
+    add_filter_menu.add_option(make_menu)
+
+    model_menu = PaginatedMenu.new(self, "Model Filter")
+    model_list = @db.list("VehicleModelYear.model")
+    model_list.each do |model|
+      model_menu.add_option(MenuCommand.new(model, Proc.new { |type, value| add_name_filter(type, value)}, 'model', model))
+    end
+    add_filter_menu.add_option(model_menu)
+
+    color_menu = PaginatedMenu.new(self, "Color Filter")
+    color_list = @db.list("inventory.color")
+    color_list.each do |color|
+      color_menu.add_option(MenuCommand.new(color.capitalize, Proc.new { |type, value| add_name_filter(type, value)}, 'color', color))
+    end
+    add_filter_menu.add_option(color_menu)
+
     add_filter_menu
   end
+
+  def add_name_filter(type, value)
+    f = FilterName.new(type)
+    f.value = value
+    if @filters[type].is_a? Array
+      @filters[type] << f
+    else
+      @filters[type] = Array.new()
+      @filters[type] << f
+    end
+  end
+
 
   def create_filter_menu
     filter_menu = Menu.new(self, "Filters")
@@ -83,7 +123,9 @@ class DealershipApp
   end
 
   def show_car_details(car)
-    puts car.description
+    puts "\n#{car.year} #{car.make} #{car.model} - $#{car.sale_price}"
+    puts "Color: #{car.color}"
+    puts "Mileage: #{car.mileage}"
   end
 
   def finance_car(car)
@@ -140,7 +182,6 @@ class DealershipApp
   end
 
   def run
-    clear_screen
     @main_menu.run
   end
 

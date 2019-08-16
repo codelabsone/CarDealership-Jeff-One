@@ -10,7 +10,7 @@ class VehicleFinanceCalc
     loan_term = loan_term_prompt
     payment = calc_payment(loan_amount, loan_rate, loan_term)
     puts "Your estimated monthly payment for the #{@car.year} #{@car.make} #{@car.model}"
-    puts "will be $#{'%.2f' % payment} for the information you ented."
+    puts "will be $#{'%.2f' % payment} for the information you entered."
   end
 
   def trade_value_prompt
@@ -53,7 +53,7 @@ class VehicleFinanceCalc
       print "> "
       rate = gets.chomp
       if is_float?(rate)
-        rate = rate.to_f
+        rate = rate.to_f / 100
         if rate > 0
           return rate
         end
