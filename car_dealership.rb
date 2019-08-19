@@ -26,16 +26,6 @@ class DealershipApp
     @main_menu.add_option(@sales_team_menu)
   end
 
-  # def create_add_filter_menu
-  #   add_filter_menu = Menu.new(self, "Add Filters")
-  #   add_filter_menu.add_option(FilterNameInput.new(self, 'make'))
-  #   add_filter_menu.add_option(FilterNameInput.new(self, 'model'))
-  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'year'))
-  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'mileage'))
-  #   add_filter_menu.add_option(FilterRangeInput.new(self, 'sale_price'))
-  #   add_filter_menu.add_option(FilterNameInput.new(self, 'color'))
-  #   add_filter_menu
-  # end
 
   def create_add_filter_menu
     add_filter_menu = Menu.new(self, "Add Filters")
@@ -194,18 +184,6 @@ class DealershipApp
   end
 
 end
-
-# db = DbConnection.new('dealership.db')
-# filters = []
-# f3 = FilterRange.new('mileage')
-# f3.min, f3.max = 1000, 2000
-#
-# filters.append(f3)
-#
-# carlist = db.get_cars(filters)
-# carlist.each do |c|
-#   puts "#{c}: #{c.mileage}"
-# end
 
 app = DealershipApp.new("JeffGroupOne")
 
